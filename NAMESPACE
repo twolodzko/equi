@@ -1,0 +1,10 @@
+export("equi",
+       "smoothtab",
+       "as.smoothtab",
+       "conttab",
+       "equi.see",
+       "recode",
+       "cdfplot",
+       "moments",
+       "lin",
+       "trun")
