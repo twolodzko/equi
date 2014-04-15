@@ -1,11 +1,12 @@
 
 
 smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
-                      bandwidth=.33, grid=200, lldeg=4, llxdeg=1,
+                      bandwidth="auto", lldeg=4, llxdeg=1,
                       raw=TRUE, cdf=TRUE, margin=0.5) {
+  # grid=200,
   
-  if (postsmoothing && bandwidth == "auto")
-    bandwidth <- dpik(x, gridsize=grid)
+  #if (postsmoothing && bandwidth == "auto")
+  #  bandwidth <- dpik(x, gridsize=grid)
   
   if (missing(y) && is.vector(x)) {
     
@@ -18,13 +19,20 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
       ft[, 2] <- glm(ft[, 2] ~ poly(ft[, 1], degree=lldeg, raw=raw),
                      family=poisson)$fitted
     
+#     if (postsmoothing) {
+#       x <- rep(ft[, 1], times=round(ft[, 2]))
+#       
+#       ft <- as.data.frame(sapply(bkde(x, bandwidth=bandwidth,
+#                                       gridsize=grid,
+#                                       range.x=c(min(x)-margin, max(x)+margin),
+#                                       truncate=TRUE), cbind))
+#     }
+    
     if (postsmoothing) {
-      x <- rep(ft[, 1], times=round(ft[, 2]))
-      
-      ft <- as.data.frame(sapply(bkde(x, bandwidth=bandwidth,
-                                      gridsize=grid,
-                                      range.x=c(min(x)-margin, max(x)+margin),
-                                      truncate=TRUE), cbind))
+      ft[, 2] <- ft[, 2]/sum(ft[, 2])
+      ks <- kern(x, xj=ft[, 1], p=ft[, 2], m=mean(x), s=var(x), h=bandwidth)
+      bandwidth <- ks$h
+      ft[, 2] <- ks$data$Freq
     }
     
     if (cdf) ft$y <- cumsum(ft[, 2])/sum(ft[, 2])
@@ -32,10 +40,11 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
     out <- as.data.frame(ft)
     out <- as.smoothtab(out, presmoothing=presmoothing,
                         postsmoothing=postsmoothing,
-                        bandwidth=bandwidth, grid=grid,
+                        bandwidth=bandwidth, 
                         lldeg=lldeg, llxdeg=llxdeg,
                         raw=raw, cdf=cdf, margin=margin,
                         design="EG", range=c(min(x), max(x)))
+    # grid=grid,
     return(out)
     
   } else {
@@ -69,22 +78,34 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
       colnames(y.ft) <- c("x", "y")
     }
     
+#     if (postsmoothing) {
+#       if (presmoothing) {
+#         n <- length(x)+nrow(ft)
+#         prob <- round((ft[, 3]/sum(ft[, 3]))*n)
+#         index <- rep(1:nrow(ft), times=prob)
+#         xy <- ft[index, 1:2]
+#         colnames(xy) <- c("x", "y")
+#       } else xy <- cbind(x, y)
+#       
+#       ft2d <- bkde2D(xy, bandwidth=bandwidth,
+#                      gridsize=c(grid, grid), truncate=TRUE,
+#                      range.x=list(c(min(x)-margin, max(x)+margin),
+#                                   c(min(y)-margin, max(y)+margin)))
+#       
+#       x.ft <- data.frame(x=ft2d$x1, y=rowSums(ft2d$fhat))      
+#       y.ft <- data.frame(x=ft2d$x2, y=colSums(ft2d$fhat))
+#     }
+    
     if (postsmoothing) {
-      if (presmoothing) {
-        n <- length(x)+nrow(ft)
-        prob <- round((ft[, 3]/sum(ft[, 3]))*n)
-        index <- rep(1:nrow(ft), times=prob)
-        xy <- ft[index, 1:2]
-        colnames(xy) <- c("x", "y")
-      } else xy <- cbind(x, y)
+      x.ft[, 2] <- x.ft[, 2]/sum(x.ft[, 2])
+      ks <- kern(x, xj=x.ft[, 1], p=x.ft[, 2], m=mean(x), s=var(x), h=bandwidth)
+      x.bandwidth <- ks$h
+      x.ft[, 2] <- ks$data$Freq
       
-      ft2d <- bkde2D(xy, bandwidth=bandwidth,
-                     gridsize=c(grid, grid), truncate=TRUE,
-                     range.x=list(c(min(x)-margin, max(x)+margin),
-                                  c(min(y)-margin, max(y)+margin)))
-      
-      x.ft <- data.frame(x=ft2d$x1, y=rowSums(ft2d$fhat))      
-      y.ft <- data.frame(x=ft2d$x2, y=colSums(ft2d$fhat))
+      y.ft[, 2] <- y.ft[, 2]/sum(y.ft[, 2])
+      ks <- kern(y, xj=y.ft[, 1], p=y.ft[, 2], m=mean(y), s=var(y), h=bandwidth)
+      y.bandwidth <- ks$h
+      y.ft[, 2] <- ks$data$Freq
     }
     
     if (cdf) {
@@ -94,11 +115,13 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
     
     out <- as.smoothtab(x.ft, y.ft, presmoothing=presmoothing,
                         postsmoothing=postsmoothing,
-                        bandwidth=bandwidth, grid=grid,
+                        bandwidth=x.bandwidth,
+                        y.bandwidth=y.bandwidth, 
                         lldeg=lldeg, llxdeg=llxdeg,
                         raw=raw, cdf=cdf, margin=margin,
                         design="SG", range=c(min(x), max(x)),
                         range.y=c(min(y), max(y)))
+    # grid=grid,
     
     return(out)
   }
@@ -106,9 +129,10 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
 
 
 as.smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
-                         bandwidth=NA, grid=NA, lldeg=NA, llxdeg=NA,
+                         bandwidth=NA, y.bandwidth, lldeg=NA, llxdeg=NA,
                          raw=TRUE, cdf=TRUE, margin=0.5, design,
                          range, range.y) {
+  # grid=NA,
   
   if (!is.data.frame(x)) {
     stop("'x' must be a data.frame.")
@@ -165,8 +189,10 @@ as.smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
   out$postsmoothing <- postsmoothing
   
   if (postsmoothing) {
-    out$bandwidth <- bandwidth
-    out$grid <- grid
+    if (!missing(y)) {
+      out$x.bandwidth <- bandwidth
+      out$y.bandwidth <- ifelse(missing(y.bandwidth), bandwidth, y.bandwidth)
+    } else out$bandwidth <- bandwidth
   }
   
   return(out)
@@ -180,5 +206,37 @@ conttab <- function(..., numeric=TRUE) {
     if (numeric) out[, i] <- as.numeric(out[, i])
   names(out)[1:(ncol(out)-1)] <- as.character(nam)
   return(out)
+}
+
+
+kern <- function(x, xj, p, m, s, h="auto", hmin=0.1, hmax=1, pen=FALSE, grid=0.1) {
+  if (h == "auto") {
+    f <- function(h) kern(x, xj, p, m, s, h, pen=TRUE)$pen
+    return(kern(x, xj, p, m, s, h=optimize(f, lower=hmin, upper=hmax)$minimum))
+  } else {
+    k <- length(xj)
+    a <- sqrt(s/(s+h^2))
+    
+    res <- numeric(k)
+    for (i in 1:k) {
+      Rjx <- (x - a*xj[i] - (1-a)*m) / (a*h)
+      res[i] <- sum(p * dnorm(Rjx) / (a*h))
+    }
+    
+    out <- list(data=data.frame(x=xj, Freq=res), h=h)
+    class(out) <- "kernsmooth"
+    
+    if (pen) {
+      der <- numeric(k)
+      for (i in 1:k) {
+        Rjx <- (x - a*xj[i] - (1-a)*m) / (a*h)
+        der[i] <- -sum(p * dnorm(Rjx) / (a*h)^2 * Rjx )
+      }
+      p1 <- sum((p-res)^2)
+      p2 <- sum( (der > 0) * (1 - (der <= 0) ))
+      out$pen <- p1+p2
+    }
+    return(out)
+  }
 }
 

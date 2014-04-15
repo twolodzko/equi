@@ -1,9 +1,9 @@
 
 
-equi <- function(x, y, range, fun="none", df=10,
+equi <- function(x, y, range, fun="ns", df=10,
                  truncate=TRUE, margin=0.5) {
 
-  fun <- match.arg(fun, c("none", "ns", "bs"))
+  fun <- match.arg(fun, c("ns", "bs", "none"))
 
   if (!missing(y) && class(y) == "equi") {
     return(equi.predict(x, y, truncate=truncate,
@@ -84,10 +84,10 @@ equi <- function(x, y, range, fun="none", df=10,
 }
 
 
-equi.ce <- function(x, y, truncate=TRUE, fun="none",
+equi.ce <- function(x, y, truncate=TRUE, fun="ns",
                     df=10, xlim, ylim, margin=0.5) {
   
-  fun <- match.arg(fun, c("none", "ns", "bs"))
+  fun <- match.arg(fun, c("ns", "bs", "none"))
 
   if (missing(xlim)) xlim <- x$ylim
   if (missing(ylim)) ylim <- y$ylim
