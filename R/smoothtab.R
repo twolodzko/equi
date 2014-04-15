@@ -3,10 +3,6 @@
 smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
                       bandwidth="auto", lldeg=4, llxdeg=1,
                       raw=TRUE, cdf=TRUE, margin=0.5) {
-  # grid=200,
-  
-  #if (postsmoothing && bandwidth == "auto")
-  #  bandwidth <- dpik(x, gridsize=grid)
   
   if (missing(y) && is.vector(x)) {
     
@@ -18,15 +14,6 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
     if (presmoothing)
       ft[, 2] <- glm(ft[, 2] ~ poly(ft[, 1], degree=lldeg, raw=raw),
                      family=poisson)$fitted
-    
-#     if (postsmoothing) {
-#       x <- rep(ft[, 1], times=round(ft[, 2]))
-#       
-#       ft <- as.data.frame(sapply(bkde(x, bandwidth=bandwidth,
-#                                       gridsize=grid,
-#                                       range.x=c(min(x)-margin, max(x)+margin),
-#                                       truncate=TRUE), cbind))
-#     }
     
     if (postsmoothing) {
       ft[, 2] <- ft[, 2]/sum(ft[, 2])
@@ -44,7 +31,7 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
                         lldeg=lldeg, llxdeg=llxdeg,
                         raw=raw, cdf=cdf, margin=margin,
                         design="EG", range=c(min(x), max(x)))
-    # grid=grid,
+
     return(out)
     
   } else {
@@ -78,24 +65,6 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
       colnames(y.ft) <- c("x", "y")
     }
     
-#     if (postsmoothing) {
-#       if (presmoothing) {
-#         n <- length(x)+nrow(ft)
-#         prob <- round((ft[, 3]/sum(ft[, 3]))*n)
-#         index <- rep(1:nrow(ft), times=prob)
-#         xy <- ft[index, 1:2]
-#         colnames(xy) <- c("x", "y")
-#       } else xy <- cbind(x, y)
-#       
-#       ft2d <- bkde2D(xy, bandwidth=bandwidth,
-#                      gridsize=c(grid, grid), truncate=TRUE,
-#                      range.x=list(c(min(x)-margin, max(x)+margin),
-#                                   c(min(y)-margin, max(y)+margin)))
-#       
-#       x.ft <- data.frame(x=ft2d$x1, y=rowSums(ft2d$fhat))      
-#       y.ft <- data.frame(x=ft2d$x2, y=colSums(ft2d$fhat))
-#     }
-    
     if (postsmoothing) {
       x.ft[, 2] <- x.ft[, 2]/sum(x.ft[, 2])
       ks <- kern(x, xj=x.ft[, 1], p=x.ft[, 2], m=mean(x), s=var(x), h=bandwidth)
@@ -121,7 +90,6 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
                         raw=raw, cdf=cdf, margin=margin,
                         design="SG", range=c(min(x), max(x)),
                         range.y=c(min(y), max(y)))
-    # grid=grid,
     
     return(out)
   }
@@ -132,7 +100,6 @@ as.smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
                          bandwidth=NA, y.bandwidth, lldeg=NA, llxdeg=NA,
                          raw=TRUE, cdf=TRUE, margin=0.5, design,
                          range, range.y) {
-  # grid=NA,
   
   if (!is.data.frame(x)) {
     stop("'x' must be a data.frame.")

@@ -8,7 +8,7 @@ Compute bootstrap \emph{Standard Error of Equating} (SEE).
 equi.see(x, y, design = "sg", reps = 100,
         presmoothing = FALSE, postsmoothing = FALSE,
         fun = "ns", df = 10, bandwidth = 0.33,
-        truncate = TRUE, range, range.y, grid = 100,
+        truncate = TRUE, range, range.y, 
         lldeg = 4, llxdeg = 1, raw = TRUE, clusters)
 }
 \arguments{
@@ -18,7 +18,7 @@ equi.see(x, y, design = "sg", reps = 100,
   \item{clusters}{vector or list of vectors of cluster groupping variables.}
   \item{range, range.y}{ranges for truncating x (and y for NEAT). See: \code{\link{equi}}, \code{\link{trun}}. }
   \item{presmoothing, postsmoothing, fun, df, truncate}{see: \code{\link{equi}}}
-  \item{bandwidth, grid, lldeg, llxdeg, raw}{see: \code{\link{smoothtab}}}
+  \item{bandwidth, lldeg, llxdeg, raw}{see: \code{\link{smoothtab}}}
 }
 \value{
 Returns \emph{Bias}, \emph{SE} and \emph{RMSE} values for each score point and averaged SEE values coputed with mean or average weighted on score points probabilities.

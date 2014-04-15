@@ -22,6 +22,3 @@ von Davier, A.A., Holland, P.W. & Thayer, D.T. (2004). \emph{The Kernel Method o
 
 Wand, M.P. & Jones, M.C. (1995). \emph{Kernel Smoothing.} London: Chapman & Hall/CRC. 
 }
-\seealso{
-\code{\link[KernSmooth]{bkde}}, \code{\link[KernSmooth]{bkde2D}}, \code{\link[splines]{ns}}, \code{\link[splines]{bs}}
-}

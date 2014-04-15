@@ -1,10 +1,10 @@
 Package: equi
 Type: Package
 Title: equi: Equipercentile Equating
-Version: 0.4.10
-Date: 2014-04-02
+Version: 0.5.1
+Date: 2014-04-15
 Author: Tymoteusz Wolodzko
 Maintainer: Tymoteusz Wolodzko <twolodzko@gmail.com>
 Description: Equipercentile Equating
-Depends: base, stats, graphics, splines, KernSmooth
+Depends: base, stats, graphics, splines
 License: GNU General Public License

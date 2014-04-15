@@ -34,7 +34,7 @@ von Davier, A.A., Holland, P.W. & Thayer, D.T. (2004). \emph{The Kernel Method o
 Green, P.J. & Silverman, B.W. (1993). \emph{Nonparametric Regression and Generalized Linear Models: A roughness penalty approach.} London: Chapman & Hall/CRC.
 }
 \seealso{
-\code{\link[splines]{ns}}, \code{\link[splines]{bs}}, \code{\link[splines]{poly}}, \code{\link[KernSmooth]{bkde}}, \code{\link[KernSmooth]{bkde2D}}, \code{\link[stats]{approx}}
+\code{\link[splines]{ns}}, \code{\link[splines]{bs}}, \code{\link[splines]{poly}}, \code{\link[stats]{approx}}
 }
 \examples{
 # Single Group design with presmoothing
