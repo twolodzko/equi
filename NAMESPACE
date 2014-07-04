@@ -1,4 +1,5 @@
 export("equi",
+       "equi.predict",
        "smoothtab",
        "as.smoothtab",
        "conttab",
@@ -7,4 +8,7 @@ export("equi",
        "cdfplot",
        "moments",
        "lin",
-       "trun")
+       "trun",
+       "interp",
+       "nslm",
+       "kernsmooth")

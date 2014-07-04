@@ -7,7 +7,7 @@ Equipercentile Equating
 Functions for equipercentile equating in \emph{Equivalent Groups} (EG), \emph{Single Group} (SG) and \emph{Nonequivalent groups with Anchor Test} using \emph{Chained Equating} (NEAT-CE) designs.
 }
 \usage{
-equi(x, y, range, fun = "ns", df = 10,
+equi(x, y, range, fun = "ns", df = "BIC",
      truncate = TRUE, margin=0.5)
 }
 \arguments{
@@ -16,7 +16,7 @@ equi(x, y, range, fun = "ns", df = 10,
   \item{range}{two-item vector of minimum and maximum score points of \code{y} scale.}
   \item{xlim, ylim}{two-item vectors of minimum and maximum score points of \code{x} scale anchor test and \code{y} scale target test.}
   \item{fun}{functions used for interpolating equating result scores from equating functions. \code{"none"} uses \code{approx} function for linear interpolation, \code{"ns"} (default) and \code{"bs"} use linear regression with \emph{Natural Cubic Spline} and \emph{B-Spline} functions respectively. See: \code{\link[stats]{approx}}, \code{\link[splines]{ns}}, \code{\link[splines]{bs}}}
-  \item{df}{degrees of freedom for \code{\link[splines]{ns}} or \code{\link[splines]{bs}} splines. If \code{df} value is too large \code{df} is set to the number of unique score point categories minus one.}
+  \item{df}{degrees of freedom for \code{\link[splines]{ns}} splines. If \code{df} is set to "BIC", "AIC" or "LSE" it uses BIC, AIC or sum of squared errors for choosing the best \code{df} value. }
   \item{truncate}{if \code{TRUE} truncates the values using \code{\link{trun}.}}
   \item{margin}{see: \code{\link{trun}}}
 }

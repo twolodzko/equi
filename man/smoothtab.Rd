@@ -5,9 +5,9 @@
 Function for \emph{Log-linear} presmoothing and/or \emph{Gaussian Kernel} postsmoothing.
 }
 \usage{
-smoothtab(x, y, presmoothing = FALSE, postsmoothing = FALSE,
-          bandwidth = "auto", lldeg = 4, llxdeg = 1,
-          raw = TRUE, cdf = TRUE)
+smoothtab(x, y, presmoothing=FALSE, postsmoothing=FALSE,
+          bandwidth="auto", lldeg=4, llxdeg=1,
+          raw=TRUE, cdf=TRUE, margin=0.5, grid=1000)
 }
 \arguments{
   \item{x, y}{numeric vectors.}
@@ -19,6 +19,8 @@ smoothtab(x, y, presmoothing = FALSE, postsmoothing = FALSE,
   \item{llxdeg}{degree of the polynomial in log-linear presmoothing for interaction term (deafult is \code{1}).}
   \item{raw}{if \code{TRUE} computes raw polynomials for log-linear presmoothing, see: \code{\link[splines]{poly}}}
   \item{cdf}{if \code{FALSE} compute probabilities rather than cumulative probabilities (default).}
+  \item{margin}{if \code{postsmoothing=TRUE}, it defines the margins of points range to be created using \emph{Gaussian Kernel} postsmoothing. The function returns point values +/- margin.}
+  \item{grid}{if \code{postsmoothing=TRUE}, it defines the number of points to be created using \emph{Gaussian Kernel} postsmoothing.}
 }
 \value{
 Returns two-column \code{data.frame} with unique score points and coresponding probabilities, or a list of two \code{data.frames} for marginal probabilities of joint distributions.

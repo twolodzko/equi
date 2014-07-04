@@ -2,7 +2,7 @@
 
 smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
                       bandwidth="auto", lldeg=4, llxdeg=1,
-                      raw=TRUE, cdf=TRUE, margin=0.5) {
+                      raw=TRUE, cdf=TRUE, margin=0.5, grid=1000) {
   
   if (missing(y) && is.vector(x)) {
     
@@ -17,9 +17,11 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
     
     if (postsmoothing) {
       ft[, 2] <- ft[, 2]/sum(ft[, 2])
-      ks <- kern(x, xj=ft[, 1], p=ft[, 2], m=mean(x), s=var(x), h=bandwidth)
+      x.new <- seq(min(ft[, 1]), max(ft[, 1]), length.out=grid)
+      ks <- kern(x.new, xj=ft[, 1], p=ft[, 2], m=mean(x), s=var(x), h=bandwidth)
       bandwidth <- ks$h
-      ft[, 2] <- ks$data$Freq
+      ft <- ks$data
+      colnames(ft) <- c("x", "y")
     }
     
     if (cdf) ft$y <- cumsum(ft[, 2])/sum(ft[, 2])
@@ -67,14 +69,18 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
     
     if (postsmoothing) {
       x.ft[, 2] <- x.ft[, 2]/sum(x.ft[, 2])
-      ks <- kern(x, xj=x.ft[, 1], p=x.ft[, 2], m=mean(x), s=var(x), h=bandwidth)
+      x.new <- seq(min(x.ft[, 1])-margin, max(x.ft[, 1])+margin, length.out=grid)
+      ks <- kern(x.new, xj=x.ft[, 1], p=x.ft[, 2], m=mean(x), s=var(x), h=bandwidth)
       x.bandwidth <- ks$h
-      x.ft[, 2] <- ks$data$Freq
+      x.ft <- ks$data
+      colnames(x.ft) <- c("x", "y")
       
       y.ft[, 2] <- y.ft[, 2]/sum(y.ft[, 2])
-      ks <- kern(y, xj=y.ft[, 1], p=y.ft[, 2], m=mean(y), s=var(y), h=bandwidth)
+      y.new <- seq(min(y.ft[, 1]), max(y.ft[, 1]), length.out=grid)
+      ks <- kern(y.new, xj=y.ft[, 1], p=y.ft[, 2], m=mean(y), s=var(y), h=bandwidth)
       y.bandwidth <- ks$h
-      y.ft[, 2] <- ks$data$Freq
+      y.ft <- ks$data
+      colnames(y.ft) <- c("x", "y")
     }
     
     if (cdf) {
@@ -166,44 +172,63 @@ as.smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
 }
 
 
-conttab <- function(..., numeric=TRUE) {
+conttab <- function(..., numeric=TRUE, prob=FALSE) {
   nam <- make.unique(as.character(match.call()[-1]))
+  if (!missing(numeric)) nam <- nam[-length(nam)]
+  if (!missing(prob)) nam <- nam[-length(nam)]
   out <- as.data.frame(table(...), stringsAsFactors=FALSE)
   for (i in 1:(ncol(out)-1))
     if (numeric) out[, i] <- as.numeric(out[, i])
   names(out)[1:(ncol(out)-1)] <- as.character(nam)
+  if (prob) out$Freq <- out$Freq/sum(out$Freq)
   return(out)
 }
 
 
-kern <- function(x, xj, p, m, s, h="auto", hmin=0.1, hmax=1, pen=FALSE, grid=0.1) {
+kern <- function(x, xj, p, m, s, h="auto", hmin=0.1, hmax=1, k=1, pen=FALSE) {
   if (h == "auto") {
-    f <- function(h) kern(x, xj, p, m, s, h, pen=TRUE)$pen
+    f <- function(h) kern(x, xj, p, m, s, h, k=k, pen=TRUE)$pen
     return(kern(x, xj, p, m, s, h=optimize(f, lower=hmin, upper=hmax)$minimum))
   } else {
     k <- length(xj)
+    n <- length(x)
     a <- sqrt(s/(s+h^2))
+    res <- NULL
     
-    res <- numeric(k)
-    for (i in 1:k) {
-      Rjx <- (x - a*xj[i] - (1-a)*m) / (a*h)
-      res[i] <- sum(p * dnorm(Rjx) / (a*h))
+    Rjx <- function(x, a, xj, m, h, i)
+      (x[i] - a*xj - (1-a)*m) / (a*h)
+    
+    for (i in 1:n) {
+      res[i] <- sum(p * dnorm(Rjx(x, a, xj, m, h, i)) / (a*h))
     }
     
-    out <- list(data=data.frame(x=xj, Freq=res), h=h)
+    out <- list(data=data.frame(x=x, Freq=res), h=h)
     class(out) <- "kernsmooth"
     
     if (pen) {
-      der <- numeric(k)
+      p.hat <- NULL
+      der <- NULL
       for (i in 1:k) {
-        Rjx <- (x - a*xj[i] - (1-a)*m) / (a*h)
-        der[i] <- -sum(p * dnorm(Rjx) / (a*h)^2 * Rjx )
+        p.hat[i] <- sum(p * dnorm(Rjx(xj, a, xj, m, h, i)) / (a*h))
+        der[i] <- -sum(p * dnorm(Rjx(x, a, xj, m, h, i)) / (a*h) )
       }
-      p1 <- sum((p-res)^2)
+      p1 <- sum((p-p.hat)^2)
       p2 <- sum( (der > 0) * (1 - (der <= 0) ))
-      out$pen <- p1+p2
-    }
+      out$pen <- p1+k*p2
+    } 
     return(out)
   }
+}
+
+
+kernsmooth <- function(x, h="auto", grid=100) {
+  x <- x[!is.na(x)]
+  m <- mean(x)
+  s <- sd(x)
+  ct <- conttab(x)
+  xj <- ct$x
+  p <- ct$Freq/sum(ct$Freq)
+  x.new <- seq(min(xj), max(xj), length.out=grid)
+  return(kern(x.new, xj, p, m, s, h=h))
 }
 

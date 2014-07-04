@@ -3,3 +3,4 @@ TODO:
 * Error handling, warnings
 * Summary
 * Plot
+* generic methods: print, summary, predict for 'equi', 'smoothtab' and 'nslm' classes

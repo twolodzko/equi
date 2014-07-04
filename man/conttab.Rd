@@ -9,6 +9,7 @@ conttab(..., numeric = TRUE)
 \arguments{
   \item{\dots}{contingency table is build of variables in \code{\dots}}
   \item{numeric}{if \code{TRUE} (default) variables in contingency table are converted to \code{numeric} variables, else thay are treated as \code{factor}.}
+  \item{prob}{returns probabilities instead of counts.}
 }
 
 \seealso{

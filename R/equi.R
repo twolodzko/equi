@@ -1,13 +1,8 @@
-
-
-equi <- function(x, y, range, fun="ns", df=10,
-                 truncate=TRUE, margin=0.5) {
-
-  fun <- match.arg(fun, c("ns", "bs", "none"))
+equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
 
   if (!missing(y) && class(y) == "equi") {
     return(equi.predict(x, y, truncate=truncate,
-                        fun=y$fun, range=range, df=df))  
+                        range=range, df=df))  
   } else {
     
     if (missing(y) && class(x) == "smoothtab"
@@ -25,8 +20,7 @@ equi <- function(x, y, range, fun="ns", df=10,
       
       if (missing(range)) range <- y$ylim
       
-      return(equi.ce(x, y, ylim=range, fun=fun,
-                     df=df, truncate=truncate))
+      return(equi.ce(x, y, ylim=range, df=df, truncate=truncate))
       
     } else if (class(x) == "smoothtab"
                && class(y) == "smoothtab"
@@ -40,28 +34,13 @@ equi <- function(x, y, range, fun="ns", df=10,
       
     } else stop("'x' and 'y' are supposed to be 'smoothtab' objects.")
     
-    if (fun %in% c("ns", "bs")) {
-      if (fun == "ns") {
-        fx <- lm(y~ns(x, df=min(df, length(unique(x))-1)), data=xdata)
-        fy <- lm(x~ns(y, df=min(df, length(unique(y))-1)), data=ydata)
-      } else {
-        fx <- lm(y~bs(x, df=min(df, length(unique(x))-1)), data=xdata)
-        fy <- lm(x~bs(y, df=min(df, length(unique(y))-1)), data=ydata)
-      }
-      x.ft <- predict(fx, data.frame(x=xdata$x))
-      pred <- predict(fy, data.frame(y=x.ft))
-      conc <- data.frame(x=xdata$x, yx=pred)
-    } else {
-      pred <- approx(x=ydata$y, y=ydata$x, xdata$y)$y
-      conc <- data.frame(x=xdata$x, yx=pred)
-    }
+    conc <- data.frame(x=xdata$x, yx=interp(ydata$y, ydata$x, xdata$y, df=df))
     
     if (truncate)
       conc$yx <- trun(conc$yx, range=range, margin=margin)
     
-    out <- list(concordance=conc, fun=fun,
-                range=range, truncate=truncate,
-                design=design)
+    out <- list(concordance=conc, range=range,
+                truncate=truncate, design=design)
     
     out$presmoothing <- x$presmoothing
     out$postsmoothing <- x$postsmoothing
@@ -77,32 +56,28 @@ equi <- function(x, y, range, fun="ns", df=10,
       out$grid <- x$grid
     }
     
-    if (fun %in% c("ns", "bs")) out$df <- df
+    out$df <- df
     class(out) <- "equi"
     return(out)
   }
 }
 
 
-equi.ce <- function(x, y, truncate=TRUE, fun="ns",
-                    df=10, xlim, ylim, margin=0.5) {
+equi.ce <- function(x, y, truncate=TRUE, df="BIC", xlim, ylim, margin=0.5) {
   
-  fun <- match.arg(fun, c("ns", "bs", "none"))
-
   if (missing(xlim)) xlim <- x$ylim
   if (missing(ylim)) ylim <- y$ylim
   
   range <- ylim
   
-  fx <- equi(x, fun=fun, truncate=truncate,
+  fx <- equi(x, truncate=truncate,
              range=xlim, df=df, margin=margin) 
-  fy <- equi(y, fun=fun, truncate=truncate,
+  fy <- equi(y, truncate=truncate,
              range=ylim, df=df, margin=margin)
   yx <- equi(equi(x$xdata$x, fx), fy)
   
   out <- list(concordance=data.frame(x=x$xdata$x, yx=yx),
-              fun=fun, range=range, truncate=truncate,
-              design="NEAT-CE")
+              range=range, truncate=truncate, design="NEAT-CE")
   
   out$presmoothing <- x$presmoothing
   out$postsmoothing <- x$postsmoothing
@@ -118,27 +93,55 @@ equi.ce <- function(x, y, truncate=TRUE, fun="ns",
     out$grid <- x$grid
   }
   
-  if (fun %in% c("ns", "bs")) out$df <- df
+  out$df <- df
   class(out) <- "equi"
   return(out)
 }
 
 
-equi.predict <- function(x, y, truncate, fun, range, df=10, margin=0.5) {
-  
-  if (missing(fun)) fun <- y$fun
-  
-  if (fun == "ns") {
-    yx <- as.numeric(predict(lm(yx~ns(x, df=min(df, length(unique(x))-1)),
-                                data=y$concordance), data.frame(x=x)))
-  } else if (fun == "bs") {
-    yx <- as.numeric(predict(lm(yx~ns(x, df=min(df, length(unique(x))-1)),
-                                data=y$concordance), data.frame(x=x)))
-  } else yx <- approx(x=y$concordance$x, y=y$concordance$yx, x)$y
-  
+equi.predict <- function(x, y, truncate, range, df="BIC", margin=0.5) {
+  yx <- interp(y$concordance$x, y$concordance$yx, x, df=df)
   if (missing(truncate)) truncate <- y$truncate
   if (truncate) yx <- trun(yx, y$range, margin=margin)
-  
   return(yx)
+}
+
+
+interp <- function(x, y, z, df="BIC", raw=FALSE) {
+  pred <- approx(x=x, y=y, xout=z)$y
+  if (!raw) {
+    offlimit <- is.na(pred)
+    if (any(offlimit)) {
+      pred[offlimit] <- nslm(x, y, z[offlimit], df=df)$predict
+    }
+  }
+  return(pred)
+}
+
+
+nslm <- function(x, y, z=x, df="BIC") {
+  out <- list()
+  if (df %in% c("AIC", "BIC", "LSE")) {
+    k <- length(unique(y))
+    crit <- NULL
+    for (i in 1:(k-1)) {
+      fit <- lm(y~ns(x, df=i))
+      if (df == "LSE") {
+        pred <- predict(fit, data.frame(x=x))
+        crit[i] <- sum((y-pred)^2)
+      } else if (df == "AIC") { crit[i] <- AIC(fit)
+      } else crit[i] <- BIC(fit)
+    }
+    out$choice.method <- df
+    out$criteria <- crit
+    out$df <- which.min(crit)
+  } else {
+    out$choice.method <- "none"
+    out$df <- df
+  }
+  out$model <- lm(y~ns(x, df=out$df))
+  out$predicted <- predict(out$model, data.frame(x=z))
+  class(out) <- "nslm"
+  return(out)
 }
 

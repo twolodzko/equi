@@ -1,17 +1,16 @@
 
 
 equi.see <- function(x, y, design="sg", reps=100, presmoothing=FALSE,
-                     postsmoothing=FALSE, fun="none", df=10,
-                     bandwidth=.33, truncate=TRUE, range, range.y,
-                     grid=200, lldeg=4, llxdeg=1, raw=TRUE, clusters) {
+                     postsmoothing=FALSE, df="BIC", bandwidth=.33,
+                     truncate=TRUE, range, range.y,
+                     lldeg=4, llxdeg=1, raw=TRUE, clusters) {
   
   design <- match.arg(design, c("eg", "sg", "neat"))
-  fun <- match.arg(fun, c("none", "ns", "bs"))
   
   param.smoothtab <- list(presmoothing=presmoothing,
                           bandwidth=bandwidth, lldeg=lldeg,
-                          llxdeg=llxdeg, grid=grid)
-  param.equi <- list(fun=fun, df=df, truncate=truncate)
+                          llxdeg=llxdeg)
+  param.equi <- list(df=df, truncate=truncate)
   
   if (missing(range)) {
     if (design == "neat") {

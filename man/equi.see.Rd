@@ -7,7 +7,7 @@ Compute bootstrap \emph{Standard Error of Equating} (SEE).
 \usage{
 equi.see(x, y, design = "sg", reps = 100,
         presmoothing = FALSE, postsmoothing = FALSE,
-        fun = "ns", df = 10, bandwidth = 0.33,
+        fun = "ns", df = "BIC", bandwidth = 0.33,
         truncate = TRUE, range, range.y, 
         lldeg = 4, llxdeg = 1, raw = TRUE, clusters)
 }
@@ -44,14 +44,17 @@ data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 
-equi.see(x, y, design="sg", reps=10)
-equi.see(x, y, design="eg", reps=10)
+equi.see(x, y, design="sg", reps=100)
+equi.see(x, y, design="sg", presmoothing=TRUE, reps=100)
+equi.see(x, y, design="sg", postsmoothing=TRUE, reps=100)
+equi.see(x, y, design="sg", presmoothing=TRUE, postsmoothing=TRUE, reps=100)
+equi.see(x, y, design="eg", reps=100)
 
 data(Tests)
 p <- Tests[Tests$Sample == "P", 1:2]
 q <- Tests[Tests$Sample == "Q", 2:3]
 
-equi.see(p, q, design="neat", reps=10)
+equi.see(p, q, design="neat", reps=100)
 
 # SEE for clustered data
 
@@ -60,12 +63,12 @@ x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 z <- Tests[Tests$Sample == "P", "School"]
 
-equi.see(x, y, design="sg", clusters=z, reps=10)
-equi.see(x, y, design="eg", clusters=list(z, z), reps=10)
+equi.see(x, y, design="sg", clusters=z, reps=100)
+equi.see(x, y, design="eg", clusters=list(z, z), reps=100)
 
 data(Tests)
 p <- Tests[Tests$Sample == "P", c(1:2, 5)]
 q <- Tests[Tests$Sample == "Q", c(2:3, 5)]
 
-equi.see(p, q, design="neat", clusters=list(p[, 3], q[,3]), reps=10)
+equi.see(p, q, design="neat", clusters=list(p[, 3], q[,3]), reps=100)
 }
