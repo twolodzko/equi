@@ -10,7 +10,6 @@ recode <- function(x, from, to, other, truncate=TRUE, margin=0.5) {
   return(new_x)
 }
 
-
 trun <- function(x, range, margin=0.5) {
   range <- range + c(-margin, margin)
   x[x < range[1]] <- range[1]
@@ -18,9 +17,10 @@ trun <- function(x, range, margin=0.5) {
   return(x)
 }
 
+cdfplot <- function(x, ...) UseMethod("cdfplot")
 
-cdfplot <- function(x, add=FALSE, ylab="F(x)", xlab="",
-                    lwd=2, main="", ...) {
+cdfplot.default <- function(x, add=FALSE, ylab="F(x)", xlab="",
+                    lwd=1, main="", ...) {
   x <- sort(x)
   n <- length(x)
   nx <- (1:n)/n
@@ -30,7 +30,6 @@ cdfplot <- function(x, add=FALSE, ylab="F(x)", xlab="",
   } else lines(x, nx, lwd=lwd, ...)
   invisible(tapply(nx, x, sum))
 }
-
 
 moments <- function(x, num=4, excess=TRUE) {
   if (is.list(x))
@@ -48,7 +47,6 @@ moments <- function(x, num=4, excess=TRUE) {
   names(out) <- c("mean", "sd", "skew", "kurt", 5:num)[1:num] 
   return(out)
 }
-
 
 lin <- function(x, y, m=mean(y, na.rm=TRUE),
                 s=sd(y, na.rm=TRUE)) {

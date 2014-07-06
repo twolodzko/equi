@@ -32,6 +32,7 @@ data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 
-fit <- nslm(x, y)
+(fit <- nslm(x, y))
+summary(fit)
 }
 

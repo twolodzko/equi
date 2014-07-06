@@ -31,6 +31,8 @@ plot(ct, col="red", ylim=c(0, 0.13))
 for (i in seq(.35, 2.5, by=.1))
   lines(kernsmooth(x, h=i, grid=1000)$data)
 
-kernsmooth(x)
+(ks <- kernsmooth(x))
+plot(ks)
+cdfplot(ks)
 }
 

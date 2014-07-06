@@ -26,10 +26,10 @@ data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 
-st.x <- smoothtab(x)$data
-st.y <- smoothtab(y)$data
+st.x <- smoothtab(x)$table
+st.y <- smoothtab(y)$table
 
-interp(st.x$y, st.x$x, st.y$y, raw=TRUE)
-interp(st.x$y, st.x$x, st.y$y)
+interp(st.x$prob, st.x$score, st.y$prob, raw=TRUE)
+interp(st.x$prob, st.x$score, st.y$prob)
 }
 

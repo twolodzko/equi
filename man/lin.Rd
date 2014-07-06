@@ -27,6 +27,7 @@ x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 
 (leq <- lin(x, y))
+summary(leq)
 lin(x, leq)
 
 lin(x, m=100, s=15)

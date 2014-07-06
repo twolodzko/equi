@@ -1,3 +1,5 @@
+
+
 equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
 
   if (!missing(y) && class(y) == "equi") {
@@ -8,9 +10,9 @@ equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
     if (missing(y) && class(x) == "smoothtab"
         && x$design == "SG") {
       
-      xdata <- x$xdata
-      ydata <- x$ydata
-      if (missing(range)) range <- x$ylim
+      xdata <- x$xdata$table
+      ydata <- x$ydata$table
+      if (missing(range)) range <- x$ydata$range
       design <- "SG"
       
     } else if (class(x) == "smoothtab"
@@ -18,7 +20,7 @@ equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
                && x$design == "SG"
                && y$design == "SG") {
       
-      if (missing(range)) range <- y$ylim
+      if (missing(range)) range <- y$ydata$range
       
       return(equi.ce(x, y, ylim=range, df=df, truncate=truncate))
       
@@ -27,36 +29,21 @@ equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
                && x$design == "EG"
                && y$design == "EG") {
       
-      xdata <- x$data
-      ydata <- y$data
+      xdata <- x$table
+      ydata <- y$table
       if (missing(range)) range <- y$range
       design <- "EG"
       
     } else stop("'x' and 'y' are supposed to be 'smoothtab' objects.")
     
-    conc <- data.frame(x=xdata$x, yx=interp(ydata$y, ydata$x, xdata$y, df=df))
+    conc <- data.frame(x=xdata$score, yx=interp(ydata$prob, ydata$score, xdata$prob, df=df))
     
     if (truncate)
       conc$yx <- trun(conc$yx, range=range, margin=margin)
     
     out <- list(concordance=conc, range=range,
-                truncate=truncate, design=design)
+                truncate=truncate, df=df, design=design)
     
-    out$presmoothing <- x$presmoothing
-    out$postsmoothing <- x$postsmoothing
-    
-    if (x$presmoothing) {
-      out$lldeg <- x$lldeg
-      out$llxdeg <- x$llxdeg
-      out$raw <- x$raw
-    }
-    
-    if (x$postsmoothing) {
-      out$bandwidth <- x$bandwidth
-      out$grid <- x$grid
-    }
-    
-    out$df <- df
     class(out) <- "equi"
     return(out)
   }
@@ -74,26 +61,11 @@ equi.ce <- function(x, y, truncate=TRUE, df="BIC", xlim, ylim, margin=0.5) {
              range=xlim, df=df, margin=margin) 
   fy <- equi(y, truncate=truncate,
              range=ylim, df=df, margin=margin)
-  yx <- equi(equi(x$xdata$x, fx), fy)
+  yx <- equi(equi(x$xdata$table$score, fx), fy)
   
-  out <- list(concordance=data.frame(x=x$xdata$x, yx=yx),
-              range=range, truncate=truncate, design="NEAT-CE")
+  out <- list(concordance=data.frame(x=x$xdata$table$score, yx=yx),
+              range=range, truncate=truncate, df=df, design="NEAT-CE")
   
-  out$presmoothing <- x$presmoothing
-  out$postsmoothing <- x$postsmoothing
-  
-  if (x$presmoothing) {
-    out$lldeg <- x$lldeg
-    out$llxdeg <- x$llxdeg
-    out$raw <- x$raw
-  }
-  
-  if (x$postsmoothing) {
-    out$bandwidth <- x$bandwidth
-    out$grid <- x$grid
-  }
-  
-  out$df <- df
   class(out) <- "equi"
   return(out)
 }

@@ -40,7 +40,10 @@ Wand, M.P. & Jones, M.C. (1995). \emph{Kernel Smoothing.} London: Chapman & Hall
 data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
-smoothtab(x)
+
+(st <- smoothtab(x))
+plot(st)
+
 smoothtab(x, presmoothing=TRUE)
 smoothtab(x, y, presmoothing=TRUE, postsmoothing=TRUE)
 }

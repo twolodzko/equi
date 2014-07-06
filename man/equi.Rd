@@ -43,7 +43,7 @@ data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 
-eq <- equi(smoothtab(x, y, presmoothing=TRUE))
+(eq <- equi(smoothtab(x, y, presmoothing=TRUE)))
 yx <- equi(x, eq)
 
 moments(list(x, y, yx))
@@ -54,7 +54,7 @@ data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 
-eq <- equi(smoothtab(x), smoothtab(y))
+(eq <- equi(smoothtab(x), smoothtab(y)))
 yx <- equi(x, eq)
 
 # NEAT-CE design, 'x' is equated to 'y' via anchor test 'a' (xa, ya).
@@ -65,6 +65,6 @@ data(Tests)
 p <- Tests[Tests$Sample == "P", 1:2]
 q <- Tests[Tests$Sample == "Q", 2:3]
 
-eq <- equi(smoothtab(p), smoothtab(q))
+(eq <- equi(smoothtab(p), smoothtab(q)))
 yx <- equi(p[, 1], eq)
 }
