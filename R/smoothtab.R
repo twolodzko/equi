@@ -117,6 +117,7 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
     class(out) <- "smoothtab"
     return(out)
   }
+  UseMethod("smoothtab")
 }
 
 
@@ -132,66 +133,53 @@ as.smoothtab <- function(x) {
 }
 
 
-is.smoothtab <- function(x) "smoothtab" %in% class(x)
-
-
-conttab <- function(..., numeric=TRUE, prob=FALSE) {
-  nam <- make.unique(as.character(match.call()[-1]))
-  if (!missing(numeric)) nam <- nam[-length(nam)]
-  if (!missing(prob)) nam <- nam[-length(nam)]
-  out <- as.data.frame(table(...), stringsAsFactors=FALSE)
-  for (i in 1:(ncol(out)-1))
-    if (numeric) out[, i] <- as.numeric(out[, i])
-  names(out)[1:(ncol(out)-1)] <- as.character(nam)
-  if (prob) out$Freq <- out$Freq/sum(out$Freq)
-  return(out)
+is.smoothtab <- function(x) {
+	inherits(x, "smoothtab")
 }
 
 
-kern <- function(x, xj, p, m, s, h="auto", hmin=0.1, hmax=1, k=1, pen=FALSE) {
-  if (h == "auto") {
-    f <- function(h) kern(x, xj, p, m, s, h, k=k, pen=TRUE)$pen
-    return(kern(x, xj, p, m, s, h=optimize(f, lower=hmin, upper=hmax)$minimum))
-  } else {
-    k <- length(xj)
-    n <- length(x)
-    a <- sqrt(s/(s+h^2))
-    res <- NULL
-    
-    Rjx <- function(x, a, xj, m, h, i)
-      (x[i] - a*xj - (1-a)*m) / (a*h)
-    
-    for (i in 1:n) {
-      res[i] <- sum(p * dnorm(Rjx(x, a, xj, m, h, i)) / (a*h))
-    }
-    
-    out <- list(data=data.frame(x=x, Freq=res), h=h)
-    class(out) <- "kernsmooth"
-    
-    if (pen) {
-      p.hat <- NULL
-      der <- NULL
-      for (i in 1:k) {
-        p.hat[i] <- sum(p * dnorm(Rjx(xj, a, xj, m, h, i)) / (a*h))
-        der[i] <- -sum(p * dnorm(Rjx(x, a, xj, m, h, i)) / (a*h) )
-      }
-      p1 <- sum((p-p.hat)^2)
-      p2 <- sum( (der > 0) * (1 - (der <= 0) ))
-      out$pen <- p1+k*p2
-    } 
-    return(out)
-  }
+print.smoothtab <- function(x, ...) {
+	if (x$design == "SG") {
+		cat("1) Table for 'x'\n")
+		print(x$xdata$table, ...)
+		if (!is.null(x$xdata$postsmoothing))
+			cat(paste("\nKernel Smoothing bandwidth:",
+								round(x$xdata$postsmoothing$h, digits=getOption("digits")), "\n"))
+		cat("\n2) Table for 'y'\n")
+		print(x$ydata$table, ...)
+		if (!is.null(x$ydata$postsmoothing))
+			cat(paste("\nKernel Smoothing bandwidth:",
+								round(x$ydata$postsmoothing$h, digits=getOption("digits")), "\n"))
+	} else {
+		print(x$table, ...)
+		if (!is.null(x$postsmoothing))
+			cat(paste("\nKernel Smoothing bandwidth:",
+								round(x$postsmoothing$h, digits=getOption("digits"))))
+	}
 }
 
 
-kernsmooth <- function(x, h="auto", grid=100) {
-  x <- x[!is.na(x)]
-  m <- mean(x)
-  s <- sd(x)
-  ct <- conttab(x)
-  xj <- ct$x
-  p <- ct$Freq/sum(ct$Freq)
-  x.new <- seq(min(xj), max(xj), length.out=grid)
-  return(kern(x.new, xj, p, m, s, h=h))
+plot.smoothtab <- function(x, type="s", lty=1:6, add=FALSE, ...) {
+	if (x$design == "SG") {
+		if (!add) {
+			lim <- c(min(x$xdata$table$score, x$ydata$table$score),
+							 max(x$xdata$table$score, x$ydata$table$score))
+			plot(x$xdata$table, type=type, xlab="",
+					 xlim=lim, lty=lty[1], ...)
+			lines(x$ydata$table, type=type, lty=lty[2], ...)
+		} else {
+			lines(x$ydata$table, type=type, lty=lty[1], ...)
+			lines(x$ydata$table, type=type, lty=lty[2], ...)
+		}
+	} else {
+		if (!add) {
+			plot(x$table, type=type, xlab="", lty=lty[1], ...)
+		} else lines(x$table, type=type, xlab="", lty=lty[1], ...)
+	}
+}
+
+
+cdfplot.smoothtab <- function(x, add=FALSE, ...) {
+	plot.smoothtab(x, add=add, ...)
 }
 

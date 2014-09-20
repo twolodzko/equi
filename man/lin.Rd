@@ -1,5 +1,10 @@
 \name{lin}
 \alias{lin}
+<<<<<<< HEAD
+\alias{print.lin}
+=======
+>>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
+\alias{summary.lin}
 \title{
 Linear equating
 }
@@ -9,11 +14,15 @@ Function for linear equating
 \usage{
 lin(x, y, m=mean(y, na.rm=TRUE),
     s=sd(y, na.rm=TRUE))
+\method{print}{lin}(x, \dots)
+\method{summary}{lin}(object, \dots)
 }
 \arguments{
   \item{x, y}{numerical vectors. Vector \code{y} can be omitted if \code{m} and \code{s} are provided.}
   \item{m}{target mean value, by default computed from \code{y}.}
   \item{s}{target sd value, by default computed from \code{y}.}
+  \item{object}{\code{summary} argument.}
+  \item{\dots}{potentially further arguments passed from other methods.}
 }
 \value{
 Returns object of class \code{lin}, that can be used for transforming scores using linear equating.
@@ -32,3 +41,4 @@ lin(x, leq)
 
 lin(x, m=100, s=15)
 }
+\keyword{equating}

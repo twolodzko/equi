@@ -5,7 +5,7 @@
 \description{
 Package for equipercentile equating in \emph{Equivalent Groups} (EG), \emph{Single Group} (SG) and \emph{Nonequivalent groups with Anchor Test} with \emph{Chained Equating} (NEAT-CE) designs.
 
-Use \code{\link{smoothtab}} for calculating score probabilities with \emph{Log-linear} presmoothing and/or \emph{Gaussian Kernel} postsmoothing and \code{\link{equi}} for equating in SG, EG design and NEAT design. You can calculate bootstrap \emph{Standard Error of Equating} (SEE) with \code{\link{equi.see}}.
+Use \code{\link{smoothtab}} for calculating score probabilities with \emph{Log-linear} presmoothing and/or \emph{Gaussian Kernel} postsmoothing and \code{\link{equi}} for equating in SG, EG design and NEAT design. You can calculate bootstrap \emph{Standard Error of Equating} (SEE) with \code{\link{see}}.
 }
 \author{
 Maintainer: Tymoteusz Wolodzko <\email{twolodzko@gmail.com}>
@@ -22,3 +22,5 @@ von Davier, A.A., Holland, P.W. & Thayer, D.T. (2004). \emph{The Kernel Method o
 
 Wand, M.P. & Jones, M.C. (1995). \emph{Kernel Smoothing.} London: Chapman & Hall/CRC. 
 }
+\keyword{equating}
+\keyword{psychometrics}

@@ -1,5 +1,13 @@
 \name{equi}
 \alias{equi}
+<<<<<<< HEAD
+\alias{print.equi}
+\alias{plot.equi}
+=======
+\alias{plot.equi}
+\alias{print.equi}
+\alias{equi.predict}
+>>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 \title{
 Equipercentile Equating
 }
@@ -7,18 +15,24 @@ Equipercentile Equating
 Functions for equipercentile equating in \emph{Equivalent Groups} (EG), \emph{Single Group} (SG) and \emph{Nonequivalent groups with Anchor Test} using \emph{Chained Equating} (NEAT-CE) designs.
 }
 \usage{
-equi(x, y, range, fun = "ns", df = "BIC",
-     truncate = TRUE, margin=0.5)
+equi(x, y, range, truncate=TRUE, df="BIC", margin=0.5)
+<<<<<<< HEAD
+\method{print}{equi}(x, \dots)
+\method{plot}{equi}(x, diff=FALSE, ref=TRUE, type="l", \dots)
+=======
+>>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 }
 \arguments{
   \item{x}{\code{\link{smoothtab}} object or numeric vector. For NEAT first column of \code{smoothtab} is source test and second is anchor test.}
   \item{y}{\code{\link{smoothtab}} or \code{\link{equi}} object. For NEAT first column of \code{smoothtab} is anchor test and second is target test.}
   \item{range}{two-item vector of minimum and maximum score points of \code{y} scale.}
-  \item{xlim, ylim}{two-item vectors of minimum and maximum score points of \code{x} scale anchor test and \code{y} scale target test.}
-  \item{fun}{functions used for interpolating equating result scores from equating functions. \code{"none"} uses \code{approx} function for linear interpolation, \code{"ns"} (default) and \code{"bs"} use linear regression with \emph{Natural Cubic Spline} and \emph{B-Spline} functions respectively. See: \code{\link[stats]{approx}}, \code{\link[splines]{ns}}, \code{\link[splines]{bs}}}
-  \item{df}{degrees of freedom for \code{\link[splines]{ns}} splines. If \code{df} is set to "BIC", "AIC" or "LSE" it uses BIC, AIC or sum of squared errors for choosing the best \code{df} value. }
   \item{truncate}{if \code{TRUE} truncates the values using \code{\link{trun}.}}
+  \item{df}{degrees of freedom for \code{\link[splines]{ns}} splines. If \code{df} is set to "BIC", "AIC" or "LSE" it uses BIC, AIC or sum of squared errors for choosing the best \code{df} value. }
   \item{margin}{see: \code{\link{trun}}}
+  \item{diff}{plot a difference from identity function.}
+  \item{ref}{plot a reference line, i.e. an identity function.}
+  \item{type}{type of the plot.}
+  \item{\dots}{potentially further arguments passed from other methods.}
 }
 \details{
 If \code{x} is \code{smoothtab} object and \code{y} is not provided, single group equating is applied. If \code{x} and \code{y} are \code{smoothtab} objects, equivalent groups or NEAT-CE equating is applied, depending on the kind of data provided. If \code{x} is numeric vector and \code{y} is \code{equi} object, \code{x} is transformed using equating function provided in \code{y}.
@@ -34,7 +48,7 @@ von Davier, A.A., Holland, P.W. & Thayer, D.T. (2004). \emph{The Kernel Method o
 Green, P.J. & Silverman, B.W. (1993). \emph{Nonparametric Regression and Generalized Linear Models: A roughness penalty approach.} London: Chapman & Hall/CRC.
 }
 \seealso{
-\code{\link[splines]{ns}}, \code{\link[splines]{bs}}, \code{\link[splines]{poly}}, \code{\link[stats]{approx}}
+\code{\link[splines]{ns}}, \code{\link[splines]{bs}}, \code{\link[stats]{poly}}, \code{\link[stats]{approx}}
 }
 \examples{
 # Single Group design with presmoothing
@@ -68,3 +82,4 @@ q <- Tests[Tests$Sample == "Q", 2:3]
 (eq <- equi(smoothtab(p), smoothtab(q)))
 yx <- equi(p[, 1], eq)
 }
+\keyword{equating}

@@ -47,6 +47,7 @@ equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
     class(out) <- "equi"
     return(out)
   }
+  UseMethod("equi")
 }
 
 
@@ -79,41 +80,27 @@ equi.predict <- function(x, y, truncate, range, df="BIC", margin=0.5) {
 }
 
 
-interp <- function(x, y, z, df="BIC", raw=FALSE) {
-  pred <- approx(x=x, y=y, xout=z)$y
-  if (!raw) {
-    offlimit <- is.na(pred)
-    if (any(offlimit)) {
-      pred[offlimit] <- nslm(x, y, z[offlimit], df=df)$predict
-    }
-  }
-  return(pred)
+print.equi <- function(x, ...) {
+	print(x$conc, ...)
+	if (x$design == "EG") {
+		cat("\nEquivalent Groups (EG) design.")
+	} else if (x$design == "NEAT-CE") {
+		cat("\nNon-Equivalent groups with Anchor\nTest - Chain Equating (NEAT-CE) design.")
+	} else cat("\nSingle Group (SG) design.")
 }
 
 
-nslm <- function(x, y, z=x, df="BIC") {
-  out <- list()
-  if (df %in% c("AIC", "BIC", "LSE")) {
-    k <- length(unique(y))
-    crit <- NULL
-    for (i in 1:(k-1)) {
-      fit <- lm(y~ns(x, df=i))
-      if (df == "LSE") {
-        pred <- predict(fit, data.frame(x=x))
-        crit[i] <- sum((y-pred)^2)
-      } else if (df == "AIC") { crit[i] <- AIC(fit)
-      } else crit[i] <- BIC(fit)
-    }
-    out$choice.method <- df
-    out$criteria <- crit
-    out$df <- which.min(crit)
-  } else {
-    out$choice.method <- "none"
-    out$df <- df
-  }
-  out$model <- lm(y~ns(x, df=out$df))
-  out$predicted <- predict(out$model, data.frame(x=z))
-  class(out) <- "nslm"
-  return(out)
+plot.equi <- function(x, diff=FALSE, ref=TRUE, type="l", ...) {
+	if (!diff) {
+		plot(x$conc, type=type, ...)
+		if (ref)
+			lines(c(x$conc[1, 1]-1, x$conc[nrow(x$conc), 1]+1),
+						c(x$conc[1, 2]-1, x$conc[nrow(x$conc), 2]+1), lty=2)
+	} else {
+		plot(x$conc$x, x$conc$yx-x$conc$x, type=type,
+				 xlab="x", ylab="yx - x", ...)
+		title("Difference from identity function")
+		if (ref) abline(h=0, lty=2)
+	}
 }
 

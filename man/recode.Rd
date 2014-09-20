@@ -7,7 +7,7 @@ Recode variable
 Recode a vector \code{from} chosen values \code{to} new values. Any value not existing in \code{from} vector will be recoded to \code{other}. Numeric vector can be truncated.
 }
 \usage{
-recode(x, from, to, other, truncate = TRUE)
+recode(x, from, to, other, truncate = TRUE, margin=0.5)
 }
 \arguments{
   \item{x}{vector.}

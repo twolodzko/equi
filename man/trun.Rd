@@ -5,7 +5,7 @@
 Truncate a vector given a \code{range}.
 }
 \usage{
-trun(x, range, margin = TRUE)
+trun(x, range, margin=0.5)
 }
 \arguments{
   \item{x}{numeric vector.}

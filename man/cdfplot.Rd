@@ -1,11 +1,17 @@
 \name{cdfplot}
 \alias{cdfplot}
+\alias{cdfplot.default}
 \title{Empirical Cumulative Distribution Function Plot}
 \description{
 Creates empirical cumulative distribution function plot.
 }
 \usage{
-cdfplot(x)
+<<<<<<< HEAD
+\method{cdfplot}{default}(x, add=FALSE, ylab="F(x)", xlab="",
+=======
+cdfplot(x, add=FALSE, ylab="F(x)", xlab="",
+>>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
+        lwd=1, main="", \dots)
 }
 \arguments{
   \item{x}{numeric vector.}

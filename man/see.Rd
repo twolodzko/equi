@@ -1,23 +1,17 @@
-\name{equi.see}
-\alias{equi.see}
+\name{see}
+\alias{see}
 \title{Bootstrap Standard Error of Equating (SEE)}
 \description{
 Compute bootstrap \emph{Standard Error of Equating} (SEE).
 }
 \usage{
-equi.see(x, y, design="sg", reps=100, presmoothing=FALSE,
-        postsmoothing=FALSE, df="BIC", bandwidth=0.33,
-        truncate=TRUE, range, range.y, lldeg=4,
-        llxdeg=1, raw=TRUE, clusters)
+see(data, fun, clusters, reps = 100)
 }
 \arguments{
-  \item{x, y}{numeric vectors or two-column marices.}
-  \item{design}{desing function: \code{"sg"} for Single Group, \code{"eg"} for Equivalent Groups (default) and \code{"neat"} for Nonequivalent groups with Anchor Test.}
+  \item{data}{a data frame.}
+  \item{fun}{a function to pass to bootstrap. The function must return a concordance table with source test scores in first column named "\code{x}", and equated scores in the second column named "\code{yx}" as in \code{\link{equi}} or \code{\link{lin}} functions.}
   \item{reps}{number of bootstrap repetitions (100 by default).}
   \item{clusters}{vector or list of vectors of cluster groupping variables.}
-  \item{range, range.y}{ranges for truncating x (and y for NEAT). See: \code{\link{equi}}, \code{\link{trun}}. }
-  \item{presmoothing, postsmoothing, df, truncate}{see: \code{\link{equi}}}
-  \item{bandwidth, lldeg, llxdeg, raw}{see: \code{\link{smoothtab}}}
 }
 \value{
 Returns \emph{Bias}, \emph{SE} and \emph{RMSE} values for each score point and averaged SEE values coputed with mean or average weighted on score points probabilities.
@@ -43,31 +37,30 @@ data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
 y <- Tests[Tests$Sample == "P", "y"]
 
-equi.see(x, y, design="sg", reps=100)
-equi.see(x, y, design="sg", presmoothing=TRUE, reps=100)
-equi.see(x, y, design="sg", postsmoothing=TRUE, reps=100)
-equi.see(x, y, design="sg", presmoothing=TRUE, postsmoothing=TRUE, reps=100)
-equi.see(x, y, design="eg", reps=100)
+data <- data.frame(x=x, y=y)
+
+# a function to be passed to bootstrap
+
+myfun1 <- function(data) {
+	eq <- equi(smoothtab(data$x, data$y, presmoothing=TRUE))
+	return(eq$conc)
+}
+
+# note: the number of iterations is small
+#       only to run faster as an example
+
+see(data, myfun1, reps=25)
+
+## Bootstrap for NEAT-CE design
 
 data(Tests)
-p <- Tests[Tests$Sample == "P", 1:2]
-q <- Tests[Tests$Sample == "Q", 2:3]
 
-equi.see(p, q, design="neat", reps=100)
+myfun2 <- function(Tests) {
+	p <- Tests[Tests$Sample == "P", 1:2]
+	q <- Tests[Tests$Sample == "Q", 2:3]
+	eq <- equi(smoothtab(p), smoothtab(q))
+	return(eq$conc)
+}
 
-# SEE for clustered data
-
-data(Tests)
-x <- Tests[Tests$Sample == "P", "x"]
-y <- Tests[Tests$Sample == "P", "y"]
-z <- Tests[Tests$Sample == "P", "School"]
-
-equi.see(x, y, design="sg", clusters=z, reps=100)
-equi.see(x, y, design="eg", clusters=list(z, z), reps=100)
-
-data(Tests)
-p <- Tests[Tests$Sample == "P", c(1:2, 5)]
-q <- Tests[Tests$Sample == "Q", c(2:3, 5)]
-
-equi.see(p, q, design="neat", clusters=list(p[, 3], q[,3]), reps=100)
+see(Tests, myfun2, reps=25)
 }

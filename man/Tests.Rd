@@ -20,3 +20,4 @@ This dataset is an extract taken from a larger study of examination results cond
 \source{
 Szaleniec, H., Grudniewska, M., Kondratek, B., Kulon, F., Pokropek, A., \enc{Stożek}{Stozek}, E. & \enc{Żółtak}{Zoltak}, M. (2013). \href{http://eduentuzjasci.pl/pl/publikacje-ee-lista/raporty/181-raport-z-badania/analiza-porownawcza-wynikow-egzaminow-zewnetrznych/946-analiza-porownawcza-wynikow-egzaminow-zewnetrznych-sprawdzian-w-szostej-klasie-szkoly-podstawowej-i-egzamin-gimnazjalny.html}{Analiza \enc{Porównawcza Wyników Egzaminów Zewnętrznych - Sprawdzian w Szóstej Klasie Szkoły Podstawowej i Egzamin Gimnazjalny}{Porownawcza Wynikow Egzaminow Zewnetrznych - Sprawdzian w Szostej Klasie Szkoly Podstawowej i Egzamin Gimnazjalny}}. Educational Research Institute. \url{http://ibe.edu.pl/}
 }
+\keyword{data}

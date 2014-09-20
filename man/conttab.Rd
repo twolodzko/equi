@@ -3,8 +3,11 @@
 \title{
 Create contingency table
 }
+\description{
+Create a contingency table from given variables.
+}
 \usage{
-conttab(..., numeric = TRUE)
+conttab(\dots, numeric=TRUE, prob=FALSE)
 }
 \arguments{
   \item{\dots}{contingency table is build of variables in \code{\dots}}

@@ -1,5 +1,10 @@
 \name{smoothtab}
 \alias{smoothtab}
+\alias{is.smoothtab}
+\alias{as.smoothtab}
+\alias{print.smoothtab}
+\alias{plot.smoothtab}
+\alias{cdfplot.smoothtab}
 \title{Presmoothing and postsmoothing of empirical distributions}
 \description{
 Function for \emph{Log-linear} presmoothing and/or \emph{Gaussian Kernel} postsmoothing.
@@ -7,7 +12,15 @@ Function for \emph{Log-linear} presmoothing and/or \emph{Gaussian Kernel} postsm
 \usage{
 smoothtab(x, y, presmoothing=FALSE, postsmoothing=FALSE,
           bandwidth="auto", lldeg=4, llxdeg=1,
-          raw=TRUE, cdf=TRUE, margin=0.5, grid=1000)
+          raw=TRUE, cdf=TRUE, margin=0.5, grid=100)
+<<<<<<< HEAD
+is.smoothtab(x)
+as.smoothtab(x)
+\method{print}{smoothtab}(x, \dots)
+\method{plot}{smoothtab}(x, type="s", lty=1:6, add=FALSE, \dots)
+\method{cdfplot}{smoothtab}(x, add=FALSE, \dots)
+=======
+>>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 }
 \arguments{
   \item{x, y}{numeric vectors.}
@@ -17,10 +30,14 @@ smoothtab(x, y, presmoothing=FALSE, postsmoothing=FALSE,
   }
   \item{lldeg}{degree of the polynomial in log-linear presmoothing (deafult is \code{4}).}
   \item{llxdeg}{degree of the polynomial in log-linear presmoothing for interaction term (deafult is \code{1}).}
-  \item{raw}{if \code{TRUE} computes raw polynomials for log-linear presmoothing, see: \code{\link[splines]{poly}}}
+  \item{raw}{if \code{TRUE} computes raw polynomials for log-linear presmoothing, see: \code{\link[stats]{poly}}}
   \item{cdf}{if \code{FALSE} compute probabilities rather than cumulative probabilities (default).}
   \item{margin}{if \code{postsmoothing=TRUE}, it defines the margins of points range to be created using \emph{Gaussian Kernel} postsmoothing. The function returns point values +/- margin.}
   \item{grid}{if \code{postsmoothing=TRUE}, it defines the number of points to be created using \emph{Gaussian Kernel} postsmoothing.}
+  \item{type}{type of the plot.}
+  \item{add}{add a plot to previous one.}
+  \item{lty}{a vector of line types, see \code{\link{par}}.}
+  \item{\dots}{potentially further arguments passed from other methods.}
 }
 \value{
 Returns two-column \code{data.frame} with unique score points and coresponding probabilities, or a list of two \code{data.frames} for marginal probabilities of joint distributions.
@@ -35,7 +52,7 @@ von Davier, A.A., Holland, P.W. & Thayer, D.T. (2004). \emph{The Kernel Method o
 
 Wand, M.P. & Jones, M.C. (1995). \emph{Kernel Smoothing.} London: Chapman & Hall/CRC. 
 }
-\note{See also \code{\pkg{equate}} and \code{\pkg{kequate}} packages.}
+\note{See also \pkg{equate} and \pkg{kequate} packages.}
 \examples{
 data(Tests)
 x <- Tests[Tests$Sample == "P", "x"]
