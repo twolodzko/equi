@@ -14,8 +14,6 @@ lin <- function(x, y, m=mean(y, na.rm=TRUE),
 	out$yx <- lin(x, out)
 	
 	return(out)
-	
-	UseMethod("lin")
 }
 
 

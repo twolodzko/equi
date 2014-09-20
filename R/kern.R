@@ -45,8 +45,6 @@ kernsmooth <- function(x, h="auto", grid=100) {
 	p <- ct$Freq/sum(ct$Freq)
 	x.new <- seq(min(xj), max(xj), length.out=grid)
 	return(kern(x.new, xj, p, m, s, h=h))
-	
-	UseMethod("kernsmooth")
 }
 
 

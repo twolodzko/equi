@@ -3,7 +3,7 @@
 \alias{print.equi}
 \alias{plot.equi}
 \title{
-Equipercentile Equating
+Equipercentile equating
 }
 \description{
 Functions for equipercentile equating in \emph{Equivalent Groups} (EG), \emph{Single Group} (SG) and \emph{Nonequivalent groups with Anchor Test} using \emph{Chained Equating} (NEAT-CE) designs.
@@ -14,8 +14,8 @@ equi(x, y, range, truncate=TRUE, df="BIC", margin=0.5)
 \method{plot}{equi}(x, diff=FALSE, ref=TRUE, type="l", \dots)
 }
 \arguments{
-  \item{x}{\code{\link{smoothtab}} object or numeric vector. For NEAT first column of \code{smoothtab} is source test and second is anchor test.}
-  \item{y}{\code{\link{smoothtab}} or \code{\link{equi}} object. For NEAT first column of \code{smoothtab} is anchor test and second is target test.}
+  \item{x}{\code{\link{smoothtab}} object or numeric vector. For NEAT first column of \code{smoothtab} data frame is source test and second is anchor test (see Details).}
+  \item{y}{\code{\link{smoothtab}} or \code{\link{equi}} object. For NEAT first column of \code{smoothtab} data frame is anchor test and second is target test (see Details).}
   \item{range}{two-item vector of minimum and maximum score points of \code{y} scale.}
   \item{truncate}{if \code{TRUE} truncates the values using \code{\link{trun}.}}
   \item{df}{degrees of freedom for \code{\link[splines]{ns}} splines. If \code{df} is set to "BIC", "AIC" or "LSE" it uses BIC, AIC or sum of squared errors for choosing the best \code{df} value. }

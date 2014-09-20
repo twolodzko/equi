@@ -25,8 +25,6 @@ nslm <- function(x, y, z=x, df="BIC") {
 	class(out) <- "nslm"
 	
 	return(out)
-	
-	UseMethod("nslm")
 }
 
 

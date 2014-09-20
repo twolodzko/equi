@@ -1,17 +1,25 @@
 \name{see}
 \alias{see}
-\title{Bootstrap Standard Error of Equating (SEE)}
+\alias{print.see}
+\alias{plot.see}
+\title{Bootstrap standard error of equating (SEE)}
 \description{
 Compute bootstrap \emph{Standard Error of Equating} (SEE).
 }
 \usage{
 see(data, fun, clusters, reps = 100)
+\method{print}{see}(x, \dots)
+\method{plot}{see}(x, type="l", col=1, lty=1, ylab="yx", xlab="x", alpha=0.5, \dots)
 }
 \arguments{
   \item{data}{a data frame.}
   \item{fun}{a function to pass to bootstrap. The function must return a concordance table with source test scores in first column named "\code{x}", and equated scores in the second column named "\code{yx}" as in \code{\link{equi}} or \code{\link{lin}} functions.}
   \item{reps}{number of bootstrap repetitions (100 by default).}
   \item{clusters}{vector or list of vectors of cluster groupping variables.}
+  \item{x}{object to plot or print.}
+  \item{type, col, lty, xlab, ylab}{arguments of the plot function.}
+  \item{alpha}{plot lines opacity (range [0, 1]).}
+  \item{\dots}{potentially further arguments passed from other methods.}
 }
 \value{
 Returns \emph{Bias}, \emph{SE} and \emph{RMSE} values for each score point and averaged SEE values coputed with mean or average weighted on score points probabilities.

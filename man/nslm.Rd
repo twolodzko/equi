@@ -2,9 +2,9 @@
 \alias{nslm}
 \alias{print.nslm}
 \alias{summary.nslm}
-\title{Function for predicting by Natural Cubic Splines regression}
+\title{Function for predicting by natural cubic splines regression}
 \description{
-It uses Natural Cubic Splines (see: \code{\link{ns}}) linear regression (see: \code{\link{lm}}) for prediction.
+It uses Natural Cubic Splines linear regression for prediction.
 }
 \usage{
 nslm(x, y, z = x, df = "BIC")
@@ -15,7 +15,7 @@ nslm(x, y, z = x, df = "BIC")
   \item{x, y}{linear regression arguments, \code{y ~ a + bx}.}
   \item{z}{the values to be used in prediction from regression function.}
   \item{df}{the number of degrees of freedom for the Natural Cubic Spline used in \code{\link{nslm}} for estimating the missing values using AIC, BIC or the sum of squared errors. Possible values are: "BIC" (default), "AIC", "LSE" (for sum of squared errors) or numeric value for df given by the user.}
-  \item{object}{\code{summary} argument.}
+  \item{object}{an \code{summary} argument.}
   \item{\dots}{potentially further arguments passed from other methods.}
 }
 

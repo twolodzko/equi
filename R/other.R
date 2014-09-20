@@ -6,15 +6,20 @@ recode <- function(x, from, to, other, truncate=TRUE, margin=0.5) {
   range <- c(min(to, na.rm=TRUE), max(to, na.rm=TRUE))
   for (i in 1:k) new_x[x == from[i]] <- to[i]
   if (!missing(other)) new_x[!(x %in% from)] <- other
-  if (truncate) new_x <- trun(new_x, range, margin=margin)
+  if (truncate) new_x <- trun(new_x, lower=range[1], upper=range[2], margin=margin)
   return(new_x)
 }
 
 
-trun <- function(x, range, margin=0.5) {
-  range <- range + c(-margin, margin)
-  x[x < range[1]] <- range[1]
-  x[x > range[2]] <- range[2]
+trun <- function(x, lower, upper, margin=0) {
+  if (!missing(lower)) {
+  	lower <- lower - margin
+  	x[x < lower] <- lower
+  }
+  if (!missing(upper)) {
+  	upper <- upper + margin
+  	x[x > upper] <- upper
+  }
   return(x)
 }
 
@@ -62,9 +67,7 @@ interp <- function(x, y, z, df="BIC", raw=FALSE) {
 }
 
 
-cdfplot <- function(x, ...) {
-	UseMethod("cdfplot")
-}
+cdfplot <- function(x, ...)	UseMethod("cdfplot")
 
 
 cdfplot.default <- function(x, add=FALSE, ylab="F(x)", xlab="",

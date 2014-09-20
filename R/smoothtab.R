@@ -117,7 +117,6 @@ smoothtab <- function(x, y, presmoothing=FALSE, postsmoothing=FALSE,
     class(out) <- "smoothtab"
     return(out)
   }
-  UseMethod("smoothtab")
 }
 
 

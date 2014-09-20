@@ -4,10 +4,10 @@
 \alias{plot.kernsmooth}
 \alias{cdfplot.kernsmooth}
 \title{
-Kernel Smoothing
+Kernel smoothing
 }
 \description{
-Kernel Smoothing as described by von Davier, Holland & Thayer (2004). It can be used for demonstrational pourposes as lower level function is used internally in \code{\link{smoothtab}} for postsmoothing and there is no need for using \code{kernsmooth} directly.
+Kernel Smoothing as described by von Davier, Holland & Thayer (2004). It can be used for demonstrational pourposes while a lower level function is used internally in \code{\link{smoothtab}} for postsmoothing and there is no need for using \code{kernsmooth} directly.
 }
 \usage{
 kernsmooth(x, h = "auto", grid = 100)

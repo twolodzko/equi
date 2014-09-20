@@ -2,17 +2,18 @@
 \alias{trun}
 \title{Truncate}
 \description{
-Truncate a vector given a \code{range}.
+Truncate a vector given lower and upper margins.
 }
 \usage{
-trun(x, range, margin=0.5)
+trun(x, lower, upper, margin=0)
 }
 \arguments{
   \item{x}{numeric vector.}
-  \item{range}{two-item vector containing lower and upper margin values.}
+  \item{lower}{lower margin.}
+  \item{upper}{upper margin.}
   \item{margin}{value of \code{margin} is subtracted form lower value of \code{range} and added to upper value of \code{range}.}
   }
 \examples{
-trun(1:10, c(4, 8), margin=TRUE)
-trun(1:10, c(4, 8), margin=FALSE)
+trun(1:10, 4, 8, margin=0)
+trun(1:10, 4, 8, margin=0.5)
 }

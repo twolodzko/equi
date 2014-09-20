@@ -3,7 +3,7 @@
 \alias{Tests}
 \docType{data}
 \title{
-Lower-secondary School Students Exam Scores
+Lower-secondary school students exam scores
 }
 \description{
 This dataset is an extract taken from a larger study of examination results conducted by the Student Performance Analysis Section of the Educational Research Institute \cite{(Szaleniec et al., 2013)} on random sample of Polish schools. The dataset consists of two samples out of eleven given in the oryginal research.
@@ -12,9 +12,9 @@ This dataset is an extract taken from a larger study of examination results cond
 \format{
   A data frame with 1705 observations on the following 5 variables.
   \describe{
-    \item{\code{x, y, z}}{numeric vectors of exam scores.}
-    \item{\code{Sample}}{factor vector inidcating one of the two samples.}
-    \item{\code{School}}{factor vector indicating one of the randomly sampled Schools.}
+    \item{x, y, z}{numeric vectors of exam scores.}
+    \item{Sample}{factor vector inidcating one of the two samples.}
+    \item{School}{factor vector indicating one of the randomly sampled Schools.}
   }
 }
 \source{

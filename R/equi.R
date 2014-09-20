@@ -39,7 +39,7 @@ equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
     conc <- data.frame(x=xdata$score, yx=interp(ydata$prob, ydata$score, xdata$prob, df=df))
     
     if (truncate)
-      conc$yx <- trun(conc$yx, range=range, margin=margin)
+      conc$yx <- trun(conc$yx, lower=range[1], upper=range[2], margin=margin)
     
     out <- list(concordance=conc, range=range,
                 truncate=truncate, df=df, design=design)
@@ -47,7 +47,6 @@ equi <- function(x, y, range, truncate=TRUE, df="BIC", margin=0.5) {
     class(out) <- "equi"
     return(out)
   }
-  UseMethod("equi")
 }
 
 
@@ -75,7 +74,7 @@ equi.ce <- function(x, y, truncate=TRUE, df="BIC", xlim, ylim, margin=0.5) {
 equi.predict <- function(x, y, truncate, range, df="BIC", margin=0.5) {
   yx <- interp(y$concordance$x, y$concordance$yx, x, df=df)
   if (missing(truncate)) truncate <- y$truncate
-  if (truncate) yx <- trun(yx, y$range, margin=margin)
+  if (truncate) yx <- trun(yx, lower=y$range[1], upper=y$range[2], margin=margin)
   return(yx)
 }
 

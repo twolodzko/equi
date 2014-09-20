@@ -1,7 +1,7 @@
 \name{cdfplot}
 \alias{cdfplot}
 \alias{cdfplot.default}
-\title{Empirical Cumulative Distribution Function Plot}
+\title{Plot empirical cumulative distribution function}
 \description{
 Creates empirical cumulative distribution function plot.
 }
