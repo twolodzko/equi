@@ -1,23 +1,14 @@
 Package: equi
 Type: Package
 Title: equi: Equipercentile Equating
-<<<<<<< HEAD
 Version: 0.7.0
 Date: 2014-09-19
-=======
-Version: 0.6.2
-Date: 2014-07-06
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 Author: Tymoteusz Wolodzko
 Maintainer: Tymoteusz Wolodzko <twolodzko@gmail.com>
 Description: Methods for Equipercentile Equating.
              Includes log-linear presmoothing and
              Gaussian Kernel postsmoothing.
-<<<<<<< HEAD
 Depends: base, stats, graphics, utils, splines
-=======
-Depends: base, stats, graphics, splines
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 License: GNU General Public License
 Copyright: package by Tymoteusz Wolodzko;
            it was inspired by 'equate' library
