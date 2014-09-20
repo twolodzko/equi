@@ -1,9 +1,6 @@
 \name{lin}
 \alias{lin}
-<<<<<<< HEAD
 \alias{print.lin}
-=======
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 \alias{summary.lin}
 \title{
 Linear equating

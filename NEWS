@@ -1,12 +1,9 @@
-<<<<<<< HEAD
 ## CHANGES in v. 0.7.0
 
 * 'see' function re-written, now has a more general interface
 * documentation cleanup
 * S3 classes cleanup
 
-=======
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 ## CHANGES in v. 0.6.2
 
 * minor improvements: generic functions
@@ -25,15 +22,6 @@
 * in equi* functions df parameter changes it's default value to "BIC" and uses automatic df estimation
 * some minor bug fixes
 * 'conttab' if asked prints probabilities instead of counts.
-<<<<<<< HEAD
 * new 'kernsmooth' function for kernel smoothing of distributions. It can be used for demonstrational pourposes as lower level 'kern' is used internally for postsmoothing and there is no need for using 'kernsmooth' manually.
 * new 'interp' function for linear interpolation with estimation of NA's by spline regression (see: nslm)
 * new 'nslm' function for natural cubic spline regression
-=======
-
-**New:**
-
-* 'kernsmooth' function for kernel smoothing of distributions. It can be used for demonstrational pourposes as lower level 'kern' is used internally for postsmoothing and there is no need for using 'kernsmooth' manually.
-* 'interp' function for linear interpolation with estimation of NA's by spline regression (see: nslm)
-* 'nslm' function for natural cubic spline regression
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9

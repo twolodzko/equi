@@ -1,13 +1,7 @@
 \name{equi}
 \alias{equi}
-<<<<<<< HEAD
 \alias{print.equi}
 \alias{plot.equi}
-=======
-\alias{plot.equi}
-\alias{print.equi}
-\alias{equi.predict}
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 \title{
 Equipercentile Equating
 }
@@ -16,11 +10,8 @@ Functions for equipercentile equating in \emph{Equivalent Groups} (EG), \emph{Si
 }
 \usage{
 equi(x, y, range, truncate=TRUE, df="BIC", margin=0.5)
-<<<<<<< HEAD
 \method{print}{equi}(x, \dots)
 \method{plot}{equi}(x, diff=FALSE, ref=TRUE, type="l", \dots)
-=======
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 }
 \arguments{
   \item{x}{\code{\link{smoothtab}} object or numeric vector. For NEAT first column of \code{smoothtab} is source test and second is anchor test.}

@@ -18,25 +18,6 @@ trun <- function(x, range, margin=0.5) {
   return(x)
 }
 
-<<<<<<< HEAD
-=======
-
-cdfplot <- function(x, ...) UseMethod("cdfplot")
-
-
-cdfplot.default <- function(x, add=FALSE, ylab="F(x)", xlab="",
-                    lwd=1, main="", ...) {
-  x <- sort(x)
-  n <- length(x)
-  nx <- (1:n)/n
-  if (!add) {
-    plot(x, nx, ylab=ylab, xlab=xlab,
-         type="s", lwd=lwd, main=main, ...)
-  } else lines(x, nx, lwd=lwd, ...)
-  invisible(tapply(nx, x, sum))
-}
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
-
 
 moments <- function(x, num=4, excess=TRUE) {
   if (is.list(x))
@@ -56,7 +37,6 @@ moments <- function(x, num=4, excess=TRUE) {
 }
 
 
-<<<<<<< HEAD
 conttab <- function(..., numeric=TRUE, prob=FALSE) {
 	nam <- make.unique(as.character(match.call()[-1]))
 	if (!missing(numeric)) nam <- nam[-length(nam)]
@@ -97,21 +77,5 @@ cdfplot.default <- function(x, add=FALSE, ylab="F(x)", xlab="",
 				 type="s", lwd=lwd, main=main, ...)
 	} else lines(x, nx, lwd=lwd, ...)
 	invisible(tapply(nx, x, sum))
-=======
-lin <- function(x, y, m=mean(y, na.rm=TRUE),
-                s=sd(y, na.rm=TRUE)) {
-  
-  if (!missing(y) && class(y) == "lin")
-    return(x * y$slope + y$intercept)
-  
-  slope <- s/sd(x, na.rm=TRUE)
-  intercept <- m - slope * mean(x, na.rm=TRUE)
-  
-  out <- list(slope=slope, intercept=intercept)
-  class(out) <- c("lin")
-  out$yx <- lin(x, out)
-  
-  return(out)
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 }
 

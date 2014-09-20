@@ -13,14 +13,11 @@ Function for \emph{Log-linear} presmoothing and/or \emph{Gaussian Kernel} postsm
 smoothtab(x, y, presmoothing=FALSE, postsmoothing=FALSE,
           bandwidth="auto", lldeg=4, llxdeg=1,
           raw=TRUE, cdf=TRUE, margin=0.5, grid=100)
-<<<<<<< HEAD
 is.smoothtab(x)
 as.smoothtab(x)
 \method{print}{smoothtab}(x, \dots)
 \method{plot}{smoothtab}(x, type="s", lty=1:6, add=FALSE, \dots)
 \method{cdfplot}{smoothtab}(x, add=FALSE, \dots)
-=======
->>>>>>> 07473a79002947100a7d3f2c84bf41df191da3d9
 }
 \arguments{
   \item{x, y}{numeric vectors.}
