@@ -1,8 +1,37 @@
-export("equi", "print.equi", "plot.equi",
-			 "see", "print.see", "plot.see",
-			 "lin", "print.lin", "summary.lin",
-			 "smoothtab", "is.smoothtab", "as.smoothtab", "print.smoothtab", "plot.smoothtab", "cdfplot.smoothtab",
-			 "kernsmooth", "print.kernsmooth", "plot.kernsmooth", "cdfplot.kernsmooth",
-			 "nslm", "print.nslm", "summary.nslm",
-			 "cdfplot", "cdfplot.default",
-			 "recode", "moments", "trun", "interp", "conttab")
+
+export("equi")
+S3method(print, equi)
+S3method(plot, equi)
+
+export("see")
+S3method(print, see)
+S3method(plot, see)
+
+export("lin")
+S3method(print, lin)
+S3method(summary, lin)
+
+export("smoothtab")
+export(is.smoothtab)
+export(as.smoothtab)
+S3method(print, smoothtab)
+S3method(plot, smoothtab)
+S3method(cdfplot, smoothtab)
+
+export("kernsmooth")
+S3method(print, kernsmooth)
+S3method(plot, kernsmooth)
+S3method(cdfplot, kernsmooth)
+
+export("nslm")
+S3method(print, nslm)
+S3method(summary, nslm)
+
+export("cdfplot")
+S3method(cdfplot, default)
+
+export("recode")
+export("moments")
+export("trun")
+export("interp")
+export("conttab")
