@@ -2,7 +2,6 @@
 \alias{smoothtab}
 \alias{is.smoothtab}
 \alias{as.smoothtab}
-\alias{print.smoothtab}
 \alias{plot.smoothtab}
 \alias{cdfplot.smoothtab}
 \title{Presmoothing and postsmoothing of empirical distributions}
@@ -15,7 +14,6 @@ smoothtab(x, y, presmoothing=FALSE, postsmoothing=FALSE,
           raw=TRUE, cdf=TRUE, margin=0.5, grid=100)
 is.smoothtab(x)
 as.smoothtab(x)
-\method{print}{smoothtab}(x, \dots)
 \method{plot}{smoothtab}(x, type="s", lty=1:6, add=FALSE, \dots)
 \method{cdfplot}{smoothtab}(x, add=FALSE, \dots)
 }

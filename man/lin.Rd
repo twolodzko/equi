@@ -1,6 +1,5 @@
 \name{lin}
 \alias{lin}
-\alias{print.lin}
 \alias{summary.lin}
 \title{
 Linear equating
@@ -11,7 +10,6 @@ Function for linear equating
 \usage{
 lin(x, y, m=mean(y, na.rm=TRUE),
     s=sd(y, na.rm=TRUE))
-\method{print}{lin}(x, \dots)
 \method{summary}{lin}(object, \dots)
 }
 \arguments{

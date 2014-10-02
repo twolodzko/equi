@@ -1,6 +1,5 @@
 \name{equi}
 \alias{equi}
-\alias{print.equi}
 \alias{plot.equi}
 \title{
 Equipercentile equating
@@ -10,7 +9,6 @@ Functions for equipercentile equating in \emph{Equivalent Groups} (EG), \emph{Si
 }
 \usage{
 equi(x, y, range, truncate=TRUE, df="BIC", margin=0.5)
-\method{print}{equi}(x, \dots)
 \method{plot}{equi}(x, diff=FALSE, ref=TRUE, type="l", \dots)
 }
 \arguments{

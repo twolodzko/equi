@@ -1,6 +1,5 @@
 \name{kernsmooth}
 \alias{kernsmooth}
-\alias{print.kernsmooth}
 \alias{plot.kernsmooth}
 \alias{cdfplot.kernsmooth}
 \title{
@@ -11,7 +10,6 @@ Kernel Smoothing as described by von Davier, Holland & Thayer (2004). It can be 
 }
 \usage{
 kernsmooth(x, h = "auto", grid = 100)
-\method{print}{kernsmooth}(x, \dots)
 \method{plot}{kernsmooth}(x, type="l", add=FALSE, \dots)
 \method{cdfplot}{kernsmooth}(x, type="s", add=FALSE, \dots)
 }

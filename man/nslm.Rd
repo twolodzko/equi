@@ -1,6 +1,5 @@
 \name{nslm}
 \alias{nslm}
-\alias{print.nslm}
 \alias{summary.nslm}
 \title{Function for predicting by natural cubic splines regression}
 \description{
@@ -8,7 +7,6 @@ It uses Natural Cubic Splines linear regression for prediction.
 }
 \usage{
 nslm(x, y, z = x, df = "BIC")
-\method{print}{nslm}(x, \dots)
 \method{summary}{nslm}(object, \dots)
 }
 \arguments{

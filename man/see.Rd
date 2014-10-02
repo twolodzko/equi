@@ -1,6 +1,5 @@
 \name{see}
 \alias{see}
-\alias{print.see}
 \alias{plot.see}
 \title{Bootstrap standard error of equating (SEE)}
 \description{
@@ -8,7 +7,6 @@ Compute bootstrap \emph{Standard Error of Equating} (SEE).
 }
 \usage{
 see(data, fun, clusters, reps = 100)
-\method{print}{see}(x, \dots)
 \method{plot}{see}(x, type="l", col=1, lty=1, ylab="yx", xlab="x", alpha=0.5, \dots)
 }
 \arguments{
