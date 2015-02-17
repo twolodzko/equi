@@ -1,14 +1,14 @@
 Package: equi
 Type: Package
 Title: equi: Equipercentile Equating
-Version: 0.7.0
-Date: 2014-09-19
+Version: 0.8.0
+Date: 2015-02-17
 Author: Tymoteusz Wolodzko
 Maintainer: Tymoteusz Wolodzko <twolodzko@gmail.com>
 Description: Methods for Equipercentile Equating.
              Includes log-linear presmoothing and
              Gaussian Kernel postsmoothing.
-Depends: base, stats, graphics, utils, splines
+Depends: base, stats, graphics, utils, splines, Rcpp
 License: GNU General Public License
 Copyright: package by Tymoteusz Wolodzko;
            it was inspired by 'equate' library
@@ -16,4 +16,5 @@ Copyright: package by Tymoteusz Wolodzko;
            similar ideas; the code for log-linear
            presmoothing was directly borrowed from
            the 'equate' package.
-NeedsCompilation: no
+LinkingTo: Rcpp
+Imports: Rcpp
