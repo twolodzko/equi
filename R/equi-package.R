@@ -29,8 +29,6 @@
 #' This package was desined during a research project by \enc{Wołodźko}{Wolodzko},
 #' Kondratek & Szaleniec (2014).
 #' 
-#' @importFrom Rcpp evalCpp
-#' @useDynLib equi
 #' 
 #' @docType package
 #' @name equi-package

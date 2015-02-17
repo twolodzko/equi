@@ -91,8 +91,7 @@ see <- function(data, fun, clusters, reps = 100) {
 	for (i in 1:reps) {
 		if (missing(clusters)) {
 			index <- sample(1:n, n, replace = TRUE)
-		}
-		else {
+		} else {
 			unq <- unique(clusters)
 			nu <- length(unq)
 			clsamp <- sample(unq, nu, replace = TRUE)

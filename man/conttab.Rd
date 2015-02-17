@@ -4,7 +4,7 @@
 \alias{conttab}
 \title{Create contingency table}
 \usage{
-conttab(..., prob = FALSE, unique = FALSE)
+conttab(..., prob = FALSE)
 }
 \arguments{
 \item{prob}{returns probabilities instead of counts.}

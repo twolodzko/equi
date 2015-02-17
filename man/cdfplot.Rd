@@ -11,7 +11,8 @@ cdfplot(x, ...)
 
 \item{add}{if \code{TRUE} adds new plot to existing one.}
 
-\item{ylab,xlab,lwd,main,\dots}{pass additional arguments to \code{\link[graphics]{plot}}. See also: \code{\link{plot.default}}.}
+\item{ylab,xlab,lwd,main,\dots}{pass additional arguments to \code{\link[graphics]{plot}}.
+                                See also: \code{\link{plot.default}}.}
 }
 \value{
 Returns a table with empirical cumulative probabilities.

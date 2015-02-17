@@ -16,5 +16,3 @@ Copyright: package by Tymoteusz Wolodzko;
            similar ideas; the code for log-linear
            presmoothing was directly borrowed from
            the 'equate' package.
-LinkingTo: Rcpp
-Imports: Rcpp
